@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PlayableTile extends JButton implements ActionListener, MouseListener {
+    
+    private Color enabledColour;
+    private Color defaultColour = Color.yellow;
+
+    
     private tileState state;    
 
     static enum tileState {
@@ -17,7 +22,6 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
     public PlayableTile() {
         state = tileState.DEFAULT;
         this.setBackground(Color.yellow);
-        this.addActionListener(this);
         this.addMouseListener(this);
        
     }
@@ -27,41 +31,22 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
     }
 
 
-    // make this into on func that takes a color variable at the top(set in the overloaded constructor)
-    public void leftToggle() {
+    public void tileToggle() {
         switch (state) {
             case DEFAULT -> {
                 state = tileState.ENABLED;
-                this.setBackground(Color.black);
+                this.setBackground(enabledColour);
+                System.out.println("enabling!");
             }
             
             case ENABLED -> {
                 state = tileState.DEFAULT;
-                this.setBackground(Color.yellow);
+                this.setBackground(defaultColour);
             } 
             
             case DISABLED -> {
                 state = tileState.ENABLED;
-                this.setBackground(Color.black);
-            }
-        }
-    }
-
-    public void rightToggle() {
-        switch (state) {
-            case DEFAULT -> {
-                state = tileState.ENABLED;
-                this.setBackground(Color.white);
-            }
-            
-            case ENABLED -> {
-                state = tileState.DEFAULT;
-                this.setBackground(Color.yellow);
-            } 
-            
-            case DISABLED -> {
-                state = tileState.ENABLED;
-                this.setBackground(Color.white);
+                this.setBackground(enabledColour);
             }
         }
     }
@@ -71,15 +56,23 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
     @Override
     public void mouseClicked(MouseEvent e) {
         int button = e.getButton();
-        if (button == 1) {
-            System.out.println("left click");
-            leftToggle();
-        } else if (button == 2){
-            System.out.println("right clicked!!");
-            rightToggle();
+        System.out.println(button);
+        if (button == 1) {            
+            enabledColour = Color.black;
+
+
+        } else if (button == 3){            
+            enabledColour = Color.white;
+
+           
         }
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+
+        Color bgColour = this.getBackground();
+        if (bgColour != enabledColour && bgColour != defaultColour) {
+            this.setBackground(enabledColour);
+        } else {
+            tileToggle();
+        }
     }
 
     @Override
@@ -106,10 +99,7 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
         //throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        leftToggle();
-    }
+ 
 
 
 }
