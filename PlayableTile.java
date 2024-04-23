@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class PlayableTile extends JButton implements MouseListener {
     
     private Color enabledColour;
-    private Color defaultColour = Color.yellow;
+    private Color defaultColour = Color.gray;
 
     
     private tileState state;    
@@ -19,10 +19,11 @@ public class PlayableTile extends JButton implements MouseListener {
         DISABLED,
     }
 
-    public PlayableTile() {
+    public PlayableTile(String name) {
         state = tileState.DEFAULT;
         this.setBackground(Color.gray);
         this.addMouseListener(this);
+        this.setText(name);
 
         //this.setBorderPainted(false);
         //this.setFocusPainted(false);
@@ -53,6 +54,23 @@ public class PlayableTile extends JButton implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        //int button = e.getButton();
+        //if (button == 1) {            
+        //    enabledColour = Color.black;
+        //} else if (button == 3){            
+        //    enabledColour = Color.white;           
+        //}
+
+        //Color bgColour = this.getBackground();
+        //if (bgColour != enabledColour && bgColour != defaultColour) {
+        //    this.setBackground(enabledColour);
+        //} else {
+        //    tileToggle();
+        //}
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
         int button = e.getButton();
         if (button == 1) {            
             enabledColour = Color.black;
@@ -66,12 +84,6 @@ public class PlayableTile extends JButton implements MouseListener {
         } else {
             tileToggle();
         }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
     }
 
     @Override
