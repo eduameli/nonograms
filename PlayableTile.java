@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlayableTile extends JButton implements ActionListener, MouseListener {
+public class PlayableTile extends JButton implements MouseListener {
     
     private Color enabledColour;
     private Color defaultColour = Color.yellow;
@@ -21,8 +21,12 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
 
     public PlayableTile() {
         state = tileState.DEFAULT;
-        this.setBackground(Color.yellow);
+        this.setBackground(Color.gray);
         this.addMouseListener(this);
+
+        //this.setBorderPainted(false);
+        //this.setFocusPainted(false);
+        //this.setContentAreaFilled(false);
        
     }
 
@@ -36,18 +40,12 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
             case DEFAULT -> {
                 state = tileState.ENABLED;
                 this.setBackground(enabledColour);
-                System.out.println("enabling!");
             }
             
             case ENABLED -> {
                 state = tileState.DEFAULT;
                 this.setBackground(defaultColour);
             } 
-            
-            case DISABLED -> {
-                state = tileState.ENABLED;
-                this.setBackground(enabledColour);
-            }
         }
     }
 
@@ -56,15 +54,10 @@ public class PlayableTile extends JButton implements ActionListener, MouseListen
     @Override
     public void mouseClicked(MouseEvent e) {
         int button = e.getButton();
-        System.out.println(button);
         if (button == 1) {            
             enabledColour = Color.black;
-
-
         } else if (button == 3){            
-            enabledColour = Color.white;
-
-           
+            enabledColour = Color.white;           
         }
 
         Color bgColour = this.getBackground();
