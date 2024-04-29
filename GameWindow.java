@@ -8,13 +8,20 @@ public class GameWindow {
     private GridLayout innerLayout = new GridLayout();
 
     
-    private JButton[][] grid;
+    private PlayableTile[] flatGrid;
+    private PlayableTile[][] tileGrid;
+    private int gridCounter;
+
     private int rows;
     private int columns;
 
     public GameWindow(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
+
+        flatGrid = new PlayableTile[rows*columns];
+        tileGrid = new PlayableTile[15][15];
+
 
         innerLayout = new GridLayout(rows+1, columns+1);
         innerPanel.setLayout(innerLayout);
@@ -38,8 +45,7 @@ public class GameWindow {
             for(int x = 0; x < rows+1; x++) {
                
                 if (y == 0) {
-                    //JLabel info = new JLabel("<html>First Line<br>Second Line<br>Second Line<br>Second Line<br>Second Line</html>");
-                    //GridLayout infoLayout = new GridLayout(5, 1);
+
                     innerPanel.add(new InfoTile());
 
                     //innerPanel.add(infoPan);
@@ -51,11 +57,33 @@ public class GameWindow {
 
                 } else {
                     PlayableTile tile = new PlayableTile();
+                    flatGrid[gridCounter] = tile;
+                    tileGrid[y-1][x-1] = tile;
+                    gridCounter++;
+
                     tile.setPreferredSize(new Dimension(64, 64));
                     innerPanel.add(tile);
                 }
             }
         }
+    }
+
+    
+    public void revealSolution(int[][] pixels) {
+        System.out.println("size: " + flatGrid.length);
+        for(int y = 0; y < 15; y++) {
+            for(int x = 0; x < 15; x++) {
+                //System.out.println("bit: " + pixels[x][y]);
+                if (pixels[y][x] == 0) {
+                    tileGrid[y][x].setBackground(Color.green);
+                    //System.out.println(x + " : " + y);
+                }
+            }
+        }
+    }
+
+    public PlayableTile getPlayableTile(int x, int y) {
+        return flatGrid[x + y*15];
     }
    
 }
