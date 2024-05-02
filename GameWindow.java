@@ -83,6 +83,21 @@ public class GameWindow {
         }
     }
 
+    public void revealColoured(Color[][] colourData) {
+        System.out.println("size: " + flatGrid.length);
+        for(int y = 0; y < rows; y++) {
+            for(int x = 0; x < columns; x++) {
+                //System.out.println("bit: " + pixels[x][y]);
+                //colourData[y][x])
+                tileGrid[rows-1-y][x].setBackground(colourData[y][x]);
+                    //System.out.println(x + " : " + y);
+                //} else {
+                //    tileGrid[rows-1-y][x].setBackground(Color.black);
+                //}
+            }
+        }
+    }
+
     public PlayableTile getPlayableTile(int x, int y) {
         return flatGrid[x + y*columns];
     }
