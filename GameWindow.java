@@ -69,12 +69,12 @@ public class GameWindow {
     }
 
     
-    public void revealSolution(int[][] pixels) {
+    public void revealSolution(boolean[][] pixels) {
         System.out.println("size: " + flatGrid.length);
         for(int y = 0; y < 15; y++) {
             for(int x = 0; x < 15; x++) {
                 //System.out.println("bit: " + pixels[x][y]);
-                if (pixels[y][x] == 0) {
+                if (pixels[y][x]) {
                     tileGrid[y][x].setBackground(Color.green);
                     //System.out.println(x + " : " + y);
                 }

@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.stream.*;
 import java.nio.ByteBuffer;
@@ -14,7 +15,7 @@ public class ParsedImage {
     private int fileSize;
     private byte[] fullContent;
     private byte[] pixelContent;
-    public int[][] rawData;
+    public boolean[][] rawData;
 
     private int width;
     private int height;
@@ -43,98 +44,126 @@ public class ParsedImage {
             height = parseTotal(22, 4);
             bitDepth = parseTotal(28, 2);
 
-            //rawData = new int[15][15];
-            
-            //System.out.println("start: " + pixelDataStart);
-            pixelContent = sliceContent(pixelDataStart, fileSize);
-            //for (byte b : pixelContent) {
-            //    System.out.println("byte: " + b);
-            //}
+            //pixelContent = sliceContent(pixelDataStart, fileSize);
 
-            //for (byte b : fullContent) {
-            //    System.out.println("byte second try: " + b);
-            //}
             int x_counter = 0;
             int y_counter = 0;
 
 
-            //int row_padding_counter = 0;
-            //int rows_done = 0;
-
-            rawData = new int[50][50];
-            //ByteBuffer buffer = ByteBuffer.allocate(fileSize).wrap(fullContent).order(ByteOrder.LITTLE_ENDIAN);
-            //byte[] arr = buffer.array();
-            //System.out.println("byte array!");
+            rawData = new boolean[15][15];
+            ByteBuffer bb = ByteBuffer.wrap(fullContent);
+            bb.order(ByteOrder.LITTLE_ENDIAN);
+            byte yes = bb.get(62);
             BitSet fullBit = BitSet.valueOf(fullContent);
+            byte[] little = bb.array();
+            byte b1 = (byte) Short.reverseBytes(little[62]);
+            byte b2 = fullContent[62];
             for(int i = pixelDataStart; i < fullContent.length; i++) {
-                //System.out.println(new StringBuilder(Integer.toBinaryString(fullContent[i])).reverse().toString());
                 String row_data = new StringBuilder(Integer.toBinaryString(fullContent[i])).reverse().toString();
-
-                BitSet bite = fullBit.get(i*8, (i+1)*8);
-                for(int x = 0; x < bite.size(); x++) {
-                    if (bite.get(x)) {
-                        System.out.print("1");
-                    } else {
-                        System.out.print("0");
-                    }
-                    //System.out.print(bite.get(x));
-                }
-                //new StringBuilder(Integer.toBinaryString(arr[i])).reverse().toString()
             }
-            //System.out.println();
-
-            //BitSet data = BitSet.valueOf(fullContent);
-            //for(int i = pixelDataStart; i < data.size(); i++) {
-            //    System.out.print(data.get(i));
-            //}
-
-
-            //System.out.println("bit set size: " + data.size());
-            //for(boolean b : data) {
-            //    System.out.println(b);
-            //}
+            int padding_tracker = 0;
             for(int i = pixelDataStart; i < fullContent.length; i++) {
-            //    System.out.println("index " +i + " : " +String.format("%8s", Integer.toBinaryString(fullContent[i] & 0xFF)).replace(' ', '0')+ " : " + fullContent[i]);
-                String str = String.format("%8s", Integer.toBinaryString(fullContent[i] & 0xFF)).replace(' ', '0');
-            //    System.out.print("bit by byt: ");
-                //x_counter = 0;
-                //for(int j = 0; j < 8; j++) {
-                    
-                    //System.out.print(getBit(fullContent[i], j));
-                    //int value = Integer.valueOf(String.format("%8s", Integer.toBinaryString(fullContent[i] & 0xFF)).replace(' ', '0').substring(j, j+1));
-                    //rawData[x_counter / 15][x_counter % 15] = getBit(fullContent[i], j);
-                //    int value = str.charAt(j);
-                //    rawData[x_counter / 15][x_counter % 15] = value;
-                    //System.out.print(fullContent[i][j]);
-                    //for(int g = 1 ; g <= fullContent[i] ; g<<=1) {
-                    //    int bit = fullContent[i]&g;
-                    //    System.out.print(bit);
-                    //} 
 
-                  
+                //String str = String.format("%8s", Integer.toBinaryString(fullContent[i] & 0xFF)).replace(' ', '0');
+                //System.out.println("byte: " + str);
+                BitSet row = fullBit.get(i*8, i*8 +8 +8 +8 +8);
+               // System.out.print("alternative:\t");
+                //System.out.println("SIZE: " + row.size());
+
+                    //if(x > 15) {
+                    //    continue;                f
+                for(int x = 7; x >= 0; x--) {
+
+                    if(x_counter% 32 > 15) {
+                        continue;
+                    }
+
+                    //if (!row.get(x)) {
+                    //    System.out.print("0");
+                    //    rawData[x_counter / 15][x_counter % 15] = 0;
+                    //} else {
+                    //    System.out.print("1");
+                    //    rawData[x_counter / 15][x_counter % 15] = 1;
+                    //}
+                    x_counter++;
+                    padding_tracker++;
+                    //System.out.print(row.get(x));
+                }
+
+                //if(y_counter % 15 == 0) {
+                //    i = 62 + (int) Math.ceil((double) x_counter /15)*15;
+
                 //}
-                //y_counter++;
-                //int x_counter = 0;
-                //for(int j = 0; j < 32; j++) {
-                //    System.out.print(getBit(fullContent[i], j));
-                //    rawData[x_counter / 15][x_counter % 15] = getBit(fullContent[i], j);
-                //    x_counter++;
-                //}
-                //System.out.println();
-                //y_counter++;
-
-
-
+                System.out.println();
+                //System.out.print("alt: " + fullBit.get(0));
+                padding_tracker++;
             }
- 
-    
-            //System.out.println("raw binary data: \n");
-            //for(int[] i : rawData) {
-            //    System.out.print(i);
-            //}
-            System.out.println("finished parsing!");
 
-            //System.out.println(getBit((byte) 0x01, 0));
+            System.out.println("ALTERNATIVE PADDING SKIP: ");
+            for(int y = 0; y < 15; y++) {
+                for(int x = 0; x < 15; x++) {
+                    boolean bit = fullBit.get(62*8 + x + y*32);
+                    if(bit) {
+                        System.out.print(1);
+                    } else {
+                        System.out.print(0);
+                    }
+                }
+            }
+            System.out.println();
+            System.out.println("NEXT");
+
+            int counter = 0;
+            boolean[][] result = new boolean[15][15];
+            boolean[] before = new boolean[(fileSize - pixelDataStart)*8];
+
+            for(int i = pixelDataStart; i < fullContent.length; i++) {
+                BitSet row = fullBit.get(i * 8, (i * 8) + 8);
+                for(int x = 7; x >= 0; x--) {
+                    //if(counter > 14) {
+                    //    i = (int) (pixelDataStart + Math.ceil((double) i / 15) * 15);
+                    //    counter = 0;
+                    //    break;
+                    //}
+
+                    boolean bit = row.get(x);
+                    before[counter] = bit;
+                    //if(bit) {
+                    //    System.out.print(1);
+                    //} else {
+                    //    System.out.print(0);
+                    //}
+                    counter++;
+                }
+            }
+            System.out.println();
+            System.out.println("BEFORE ARRAY: ");
+            for(boolean b : before) {
+                if (b) {
+                    System.out.print(1);
+                } else {
+                    System.out.print(0);
+                }
+                //System.out.print(b);
+            }
+
+            System.out.println();
+
+            for(int row = 0; row < height; row++) {
+                boolean[] thisRow = new boolean[width];
+                // this row needs to hold before[Math.ceil(row*width / 32) * 32, Math.ceil(row*width / 32) * 32 + width]
+                result[row] = new boolean[width];
+                for(int i = 0; i < width; i++) {
+                    int index = (int) (Math.ceil((double) (row * 32) / 32) * 32 + i);
+                    thisRow[i] = before[index];
+                }
+                result[row] = thisRow;
+                System.out.println(row + " : " + Arrays.toString(thisRow));
+            }
+            rawData = result;
+
+
+            System.out.println("finished parsing!");
         } catch (Exception e) {
             System.out.println("error parsing file!");
         } 
@@ -146,7 +175,7 @@ public class ParsedImage {
         int total = 0;
         for (int i = 0; i < length; i++) {
             //System.out.println("pow: " + Math.pow(16, i) + " num: " + fullContent[from + i]);
-            total += Math.pow(16, i)*fullContent[from + i];
+            total += (int) (Math.pow(16, i)*fullContent[from + i]);
         }
         return total;
     }
