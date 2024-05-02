@@ -7,7 +7,6 @@ public class GameWindow {
     private JPanel innerPanel = new JPanel();
     private GridLayout innerLayout = new GridLayout();
 
-    
     private PlayableTile[] flatGrid;
     private PlayableTile[][] tileGrid;
     private int gridCounter;
@@ -20,7 +19,7 @@ public class GameWindow {
         this.columns = columns;
 
         flatGrid = new PlayableTile[rows*columns];
-        tileGrid = new PlayableTile[15][15];
+        tileGrid = new PlayableTile[rows][columns];
 
 
         innerLayout = new GridLayout(rows+1, columns+1);
@@ -41,8 +40,8 @@ public class GameWindow {
     public void populateNonogram() {
 
 
-        for(int y = 0; y < columns+1; y++) {
-            for(int x = 0; x < rows+1; x++) {
+        for(int y = 0; y < rows+1; y++) {
+            for(int x = 0; x < columns+1; x++) {
                
                 if (y == 0) {
 
@@ -71,19 +70,21 @@ public class GameWindow {
     
     public void revealSolution(boolean[][] pixels) {
         System.out.println("size: " + flatGrid.length);
-        for(int y = 0; y < 15; y++) {
-            for(int x = 0; x < 15; x++) {
+        for(int y = 0; y < rows; y++) {
+            for(int x = 0; x < columns; x++) {
                 //System.out.println("bit: " + pixels[x][y]);
                 if (pixels[y][x]) {
-                    tileGrid[y][x].setBackground(Color.green);
+                    tileGrid[rows-1-y][x].setBackground(Color.white);
                     //System.out.println(x + " : " + y);
+                } else {
+                    tileGrid[rows-1-y][x].setBackground(Color.black);
                 }
             }
         }
     }
 
     public PlayableTile getPlayableTile(int x, int y) {
-        return flatGrid[x + y*15];
+        return flatGrid[x + y*columns];
     }
    
 }
