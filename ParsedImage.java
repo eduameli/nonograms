@@ -10,39 +10,74 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class ParsedImage {
-    private String path;
-    private boolean loaded = false;
 
-    private int fileSize;
-    private byte[] fullContent;
-    private byte[] pixelContent;
-    public boolean[][] rawData;
-    public Color[][] colourData;
+    private static boolean coloured;
+    private static int fileSize;
+    private static byte[] fullContent;
+    public static boolean[][] rawData;
 
-    public int getWidth() {
+    private static Color[] possibleColours;
+
+    public static Color[][] colourData;
+
+    public static int getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    public static int getHeight() {
         return height;
     }
 
-    private int width;
-    private int height;
-    private int bitDepth;
-    private int pixelDataStart;
+    public static boolean isColoured() {
+        return coloured;
+    }
 
-    public ParsedImage(String path) {
-        this.path = path;
 
+    private static int width;
+    private static int height;
+    private static int bitDepth;
+    private static int pixelDataStart;
+    private static byte[] pixelContent;
+
+
+
+    public static void loadBMP(String path) {
         try {
             InputStream f = new FileInputStream(path);
             f.skip(2);
 
-            byte[] size = new byte[4];
-            f.read(size);
+            byte[] readFileSize = new byte[4];
+            byte[] readPixelStart = new byte[4];
+            byte[] readWidth = new byte[4];
+            byte[] readHeight = new byte[4];
+            byte[] readBitDepth = new byte[2];
 
-            fileSize = parseBytes(size);
+            // init with size = fileSize - pixelStart
+            f.read(readFileSize);
+
+            f.skip(4);
+            f.read(readPixelStart);
+
+            f.skip(4);
+            f.read(readWidth);
+            f.read(readHeight);
+            f.skip(2);
+            f.read(readBitDepth);
+
+            fileSize = parseBytes(readFileSize);
+            pixelDataStart = parseBytes(readPixelStart);
+            width = parseBytes(readWidth);
+            height = parseBytes(readHeight);
+            bitDepth = parseBytes(readBitDepth);
+
+            f.skip(pixelDataStart - 29);
+
+            pixelContent = new byte[fileSize - pixelDataStart];
+            f.read(pixelContent);
+            System.out.println(pixelContent);
+
+
+
             f.close();
 
             f = new FileInputStream(path);
@@ -50,21 +85,21 @@ public class ParsedImage {
             f.read(fullContent, 0, fileSize);
             f.close();
 
-            pixelDataStart = parseTotal(10, 4);
-            width = parseTotal(18, 4);
-            height = parseTotal(22, 4);
-            bitDepth = parseTotal(28, 2);
+            //pixelDataStart = parseTotal(10, 4);
 
-            // ^^^ parse data from .bmp file!
+            //width = parseTotal(18, 4);
+            //height = parseTotal(22, 4);
 
+            //bitDepth = parseTotal(28, 2);
 
-            rawData = new boolean[height][width];
-
-            if (bitDepth == 1) {
+            if(bitDepth == 1) {
+                coloured = false;
                 parseMonochrome();
             } else if (bitDepth == 24) {
+                coloured = true;
                 parseColoured();
             }
+
 
 
             System.out.println("finished parsing!");
@@ -75,11 +110,9 @@ public class ParsedImage {
        
     }
 
-    public void parseColoured() {
+    private static void parseColoured() {
         BitSet fullBit = BitSet.valueOf(fullContent);
-        //System.out.println(fullContent.length);;
 
-        // 954 bytes full, 900 bytes colours 3 bytes RGB then 1 byte padding for each pixel 15*20 * 3(1 unused?? or just skipped)
         int counter = 0;
         colourData = new Color[height][width];
         Color[] before = new Color[height*width];
@@ -88,15 +121,13 @@ public class ParsedImage {
             int g = parseBytes(fullContent[i+1]);
             int b = parseBytes(fullContent[i+2]);
 
-            //ystem.out.println("test");
             Color c = new Color(b, g, r);
-            //colourData[counter / height][counter % width] = c;
             before[counter] = c;
             counter++;
         }
 
-        for(int x = 0; x < width; x++) {
-            for(int y = 0; y< height; y++) {
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
                 colourData[y][x] = before[x + y*width];
             }
         }
@@ -106,7 +137,8 @@ public class ParsedImage {
         System.out.println(colourData);
     }
 
-    private void parseMonochrome() {
+    private static void parseMonochrome() {
+        rawData = new boolean[height][width];
         BitSet fullBit = BitSet.valueOf(fullContent);
 
 
@@ -119,6 +151,7 @@ public class ParsedImage {
             for(int x = 7; x >= 0; x--) {
 
                 boolean bit = row.get(x);
+
                 before[counter] = bit;
                 counter++;
             }
@@ -138,7 +171,7 @@ public class ParsedImage {
         rawData = result;
     }
 
-    public int parseTotal(int from, int length) {
+    private static int parseTotal(int from, int length) {
         int total = 0;
         for (int i = 0; i < length; i++) {
             total += (int) (Math.pow(16, i)*fullContent[from + i]);
@@ -150,7 +183,7 @@ public class ParsedImage {
 
 
 
-    public int parseBytes(byte[] input) {
+    private static int parseBytes(byte[] input) {
         BitSet set = BitSet.valueOf(input);
         int total = 0;
 
@@ -167,7 +200,7 @@ public class ParsedImage {
         return total;
     }
 
-    public int parseBytes(byte input) {
+    private static int parseBytes(byte input) {
         BitSet set = BitSet.valueOf(new byte[] {input});
         int total = 0;
 
@@ -182,6 +215,14 @@ public class ParsedImage {
         }
 
         return total;
+    }
+
+    public static Color getColour(int x, int y) {
+        return colourData[height-y][x-1];
+    }
+
+    public static boolean getValue(int x, int y) {
+        return rawData[height -y][x-1];
     }
 
 

@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlayableTile extends JPanel implements MouseListener {
+public abstract class PlayableTile extends JPanel implements MouseListener {
     
     private Color enabledColour;
     private Color defaultColour = Color.gray;
@@ -17,7 +17,6 @@ public class PlayableTile extends JPanel implements MouseListener {
     static enum tileState {
         DEFAULT,
         ENABLED,
-        DISABLED,
     }
 
     public PlayableTile() {
@@ -27,11 +26,6 @@ public class PlayableTile extends JPanel implements MouseListener {
         this.setBorder(BorderFactory.createLineBorder(Color.black));
        
     }
-
-    public void setState(tileState state) {
-        this.state = state;
-    }
-
 
     public void tileToggle() {
         switch (state) {
@@ -46,6 +40,8 @@ public class PlayableTile extends JPanel implements MouseListener {
             } 
         }
     }
+
+    public void reveal() {}
 
     
 

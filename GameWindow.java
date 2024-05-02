@@ -11,18 +11,17 @@ public class GameWindow {
     private PlayableTile[][] tileGrid;
     private int gridCounter;
 
-    private int rows;
-    private int columns;
+    private int height;
+    private int width;
+    public GameWindow() {
+        this.height = ParsedImage.getHeight();
+        this.width = ParsedImage.getWidth();
 
-    public GameWindow(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
-
-        flatGrid = new PlayableTile[rows*columns];
-        tileGrid = new PlayableTile[rows][columns];
+        flatGrid = new PlayableTile[height*width];
+        tileGrid = new PlayableTile[height][width];
 
 
-        innerLayout = new GridLayout(rows+1, columns+1);
+        innerLayout = new GridLayout(height+1, width+1);
         innerPanel.setLayout(innerLayout);
         populateNonogram();
 
@@ -39,25 +38,30 @@ public class GameWindow {
 
     public void populateNonogram() {
 
-
-        for(int y = 0; y < rows+1; y++) {
-            for(int x = 0; x < columns+1; x++) {
+        for(int row = 0; row < height+1; row++) {
+            for(int column = 0; column < width+1; column++) {
                
-                if (y == 0) {
+                if (column == 0) {
 
                     innerPanel.add(new InfoTile());
 
                     //innerPanel.add(infoPan);
-                } else if(x == 0) {
+                } else if(row == 0) {
 
 
                     
                     innerPanel.add(new InfoTile());
 
                 } else {
-                    PlayableTile tile = new PlayableTile();
+                    PlayableTile tile;
+                    if(ParsedImage.isColoured()) {
+                        tile = new ColouredTile(column, row);
+                    } else {
+                        tile = new MonochromeTile(column, row);
+                    }
+
                     flatGrid[gridCounter] = tile;
-                    tileGrid[y-1][x-1] = tile;
+                    tileGrid[row-1][column-1] = tile;
                     gridCounter++;
 
                     tile.setPreferredSize(new Dimension(64, 64));
@@ -70,36 +74,41 @@ public class GameWindow {
     
     public void revealSolution(boolean[][] pixels) {
         System.out.println("size: " + flatGrid.length);
-        for(int y = 0; y < rows; y++) {
-            for(int x = 0; x < columns; x++) {
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
                 //System.out.println("bit: " + pixels[x][y]);
                 if (pixels[y][x]) {
-                    tileGrid[rows-1-y][x].setBackground(Color.white);
+                    tileGrid[height-1-y][x].setBackground(Color.white);
                     //System.out.println(x + " : " + y);
                 } else {
-                    tileGrid[rows-1-y][x].setBackground(Color.black);
+                    tileGrid[height-1-y][x].setBackground(Color.black);
                 }
+            }
+        }
+    }
+
+    public void revealSolution() {
+        for(int y = 0; y < width; y++) {
+            for (int x = 0; x < height; x++) {
+            tileGrid[x][y].reveal();
             }
         }
     }
 
     public void revealColoured(Color[][] colourData) {
         System.out.println("size: " + flatGrid.length);
-        for(int y = 0; y < rows; y++) {
-            for(int x = 0; x < columns; x++) {
-                //System.out.println("bit: " + pixels[x][y]);
-                //colourData[y][x])
-                tileGrid[rows-1-y][x].setBackground(colourData[y][x]);
-                    //System.out.println(x + " : " + y);
-                //} else {
-                //    tileGrid[rows-1-y][x].setBackground(Color.black);
-                //}
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+
+                tileGrid[height-1-y][x].setBackground(colourData[y][x]);
+
             }
         }
     }
 
     public PlayableTile getPlayableTile(int x, int y) {
-        return flatGrid[x + y*columns];
+        return flatGrid[x + y*width];
     }
+
    
 }

@@ -4,14 +4,12 @@ import java.awt.*;
 public class Driver {
     public static void main(String[] args) {
 
-        ParsedImage img = new ParsedImage("3colour_basketball.bmp");
-        //ParsedImage img = new ParsedImage("2colour_elephant.bmp");
-        //ParsedImage img = new ParsedImage("elephant.bmp");
+        //ParsedImage.loadBMP("3colour_basketball.bmp");
+        //ParsedImage.loadBMP("large.bmp");
+        ParsedImage.loadBMP("2colour_elephant.bmp");
 
-        GameWindow window = new GameWindow(img.getHeight(), img.getWidth());
-        window.revealColoured(img.colourData);
-        //window.revealSolution(img.rawData);
-        //PlayableTile t = window.getPlayableTile(14, 14);
-        //t.setBackground(Color.green);
+        GameWindow window = new GameWindow();
+        window.revealSolution();
+
     }
 }
