@@ -5,15 +5,33 @@ import java.awt.event.MouseListener;
 
 public abstract class Tile extends JPanel implements MouseListener {
 
-    public Tile() {
+    public Tile(int x, int y) {
+        this.xCoord = x;
+        this.yCoord = y;
+
         this.setBackground(Color.gray);
         this.addMouseListener(this);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
-    public void reveal() {}
 
-    public void toggle() {}
+
+    private final int xCoord;
+    private final int yCoord;
+
+
+    public int getXCoord() {
+        return xCoord;
+    }
+
+    public int getYCoord() {
+        return yCoord;
+    }
+
+
+    public abstract void reveal();
+
+    public abstract void toggle();
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {

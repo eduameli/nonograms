@@ -1,33 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GameWindow {
+public class GameWindow extends JFrame{
 
-    private final JFrame window = new JFrame();
-    private final JPanel innerPanel = new JPanel();
-    private GridLayout innerLayout = new GridLayout();
-
+    private final JPanel mainPanel = new JPanel();
     private final Tile[][] tileGrid;
 
     private final int height;
     private final int width;
+
     public GameWindow() {
         this.height = ParsedImage.getHeight();
         this.width = ParsedImage.getWidth();
 
         tileGrid = new Tile[height+1][width+1];
 
-        innerLayout = new GridLayout(height+1, width+1);
-        innerPanel.setLayout(innerLayout);
+        GridLayout innerLayout = new GridLayout(height + 1, width + 1);
+        mainPanel.setLayout(innerLayout);
 
         populateNonogram();
 
-        window.setTitle("nonograms");
-        innerPanel.setLayout(innerLayout);
-
-        window.setContentPane(innerPanel);
-        window.pack();
-        window.setVisible(true);
+        this.setTitle("nonograms");
+        this.setContentPane(mainPanel);
+        this.pack();
+        this.setVisible(true);
     }
 
     public void populateNonogram() {
@@ -36,8 +32,7 @@ public class GameWindow {
             for(int column = 0; column < width+1; column++) {
                 Tile tile = getSuitableTile(column, row);
                 tile.setPreferredSize(new Dimension(64, 64));
-                innerPanel.add(tile);
-                //}
+                mainPanel.add(tile);
             }
         }
     }
@@ -54,7 +49,6 @@ public class GameWindow {
         if (!(tile instanceof InfoTile)) {
             tileGrid[y-1][x-1] = tile;
         }
-
         return tile;
     }
 
