@@ -16,5 +16,6 @@ public class ColouredTile extends PlayableTile {
     public void toggle() {}
     public void reveal() {
         this.setBackground(correctColour);
+        System.out.println("reveal");
     }
 }

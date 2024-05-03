@@ -43,6 +43,7 @@ public abstract class PlayableTile extends JPanel implements MouseListener {
 
     public void reveal() {}
 
+    public void hideBorder() {}
     
 
     @Override

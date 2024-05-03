@@ -43,7 +43,7 @@ public class ParsedImage {
 
     public static void loadBMP(String path) {
         try {
-            InputStream f = new FileInputStream(path);
+            FileInputStream f = new FileInputStream(path);
             f.skip(2);
 
             byte[] readFileSize = new byte[4];
@@ -74,7 +74,7 @@ public class ParsedImage {
 
             pixelContent = new byte[fileSize - pixelDataStart];
             f.read(pixelContent);
-            System.out.println(pixelContent);
+            //System.out.println(pixelContent);
 
 
 
@@ -114,16 +114,27 @@ public class ParsedImage {
         BitSet fullBit = BitSet.valueOf(fullContent);
 
         int counter = 0;
-        colourData = new Color[height][width];
-        Color[] before = new Color[height*width];
-        for(int i = pixelDataStart; i < fullContent.length; i+=3) {
+        colourData = new Color[height+1][width+1];
+        Color[] before = new Color[(height+1)*(width+1)];
+        System.out.println("color size: " + before.length);
+        System.out.println("fileSize: " + fileSize + ", " + fullContent.length);
+        System.out.println("start: " + pixelDataStart);
+
+        System.out.println("counter max: " + (fileSize-pixelDataStart)/3);
+        // 54
+        for(int i = pixelDataStart; i < fileSize; i+=3) {
+
             int r = parseBytes(fullContent[i]);
             int g = parseBytes(fullContent[i+1]);
             int b = parseBytes(fullContent[i+2]);
 
             Color c = new Color(b, g, r);
+
+            //Color c = Color.black;
             before[counter] = c;
             counter++;
+
+
         }
 
         for(int y = 0; y < height; y++) {
@@ -134,7 +145,7 @@ public class ParsedImage {
 
         //colourData = result;
 
-        System.out.println(colourData);
+        //System.out.println(colourData);
     }
 
     private static void parseMonochrome() {
@@ -166,7 +177,7 @@ public class ParsedImage {
                 thisRow[i] = before[index];
             }
             result[row] = thisRow;
-            System.out.println(row + " : " + Arrays.toString(thisRow));
+            //System.out.println(row + " : " + Arrays.toString(thisRow));
         }
         rawData = result;
     }
@@ -189,12 +200,12 @@ public class ParsedImage {
 
         for (int bit = (input.length*8) -1; bit >= 0; bit--) {
             if(set.get(bit)) {
-                System.out.print(1);
+                //System.out.print(1);
                 total += (1 << bit);
-
-            } else {
-                System.out.print(0);
             }
+            //} else {
+                //System.out.print(0);
+            //}
        }
 
         return total;
@@ -206,12 +217,12 @@ public class ParsedImage {
 
         for (int bit = 7; bit >= 0; bit--) {
             if(set.get(bit)) {
-                System.out.print(1);
+                //System.out.print(1);
                 total += (1 << bit);
 
-            } else {
-                System.out.print(0);
-            }
+            } //else {
+                //System.out.print(0);
+            //}
         }
 
         return total;

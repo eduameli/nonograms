@@ -70,7 +70,6 @@ public class GameWindow {
             }
         }
     }
-
     
     public void revealSolution(boolean[][] pixels) {
         System.out.println("size: " + flatGrid.length);
