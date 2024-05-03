@@ -6,12 +6,12 @@ public class ColouredTile extends Tile {
         super();
         this.x = x;
         this.y = y;
-        correctColour = ParsedImage.getColour(x, y);
+        correctColour = ParsedImage.getColour(x-1, y-1);
     }
 
-    private Color correctColour;
-    private int x;
-    private int y;
+    private final Color correctColour;
+    private final int x;
+    private final int y;
 
     public void toggle() {}
     public void reveal() {

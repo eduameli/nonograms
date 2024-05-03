@@ -160,9 +160,9 @@ public class ParsedImage {
         int r = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width]);
         int g = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width + 1]);
         int b = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width + 2]);
+        return new Color(b, g, r);
 
-        Color c = new Color(b, g, r);
-        return c;
+
     }
 
     public static boolean getValue(int x, int y) {

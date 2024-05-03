@@ -9,13 +9,13 @@ import java.awt.event.ActionListener;
 public abstract class PlayableTile extends Tile implements MouseListener {
     
     private Color enabledColour;
-    private Color defaultColour = Color.gray;
+    private final Color defaultColour = Color.gray;
 
     
     private tileState state;    
 
     // move this to monochrome
-    static enum tileState {
+    enum tileState {
         DEFAULT,
         ENABLED,
     }

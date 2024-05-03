@@ -11,8 +11,10 @@ public abstract class Tile extends JPanel implements MouseListener {
         this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
-    public void reveal() {};
-    public void toggle() {};
+    public void reveal() {}
+
+    public void toggle() {}
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 

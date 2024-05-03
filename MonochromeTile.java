@@ -6,12 +6,12 @@ public class MonochromeTile extends Tile {
         super();
         this.x = x;
         this.y = y;
-        correctState = ParsedImage.getValue(x, y);
+        correctState = ParsedImage.getValue(x-1, y-1);
 
     }
-    private boolean correctState;
-    private int x;
-    private int y;
+    private final boolean correctState;
+    private final int x;
+    private final int y;
 
     public void toggle() {}
     public void reveal() {
