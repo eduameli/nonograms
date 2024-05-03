@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class ColouredTile extends PlayableTile {
+public class ColouredTile extends Tile {
 
     public ColouredTile(int x, int y) {
         super();

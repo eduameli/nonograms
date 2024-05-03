@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class MonochromeTile extends PlayableTile {
+public class MonochromeTile extends Tile {
 
     public MonochromeTile(int x, int y) {
         super();

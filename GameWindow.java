@@ -7,9 +7,7 @@ public class GameWindow {
     private JPanel innerPanel = new JPanel();
     private GridLayout innerLayout = new GridLayout();
 
-    private PlayableTile[] flatGrid;
-    private PlayableTile[][] tileGrid;
-    private int gridCounter;
+    private Tile[][] tileGrid;
 
     private int height;
     private int width;
@@ -17,8 +15,7 @@ public class GameWindow {
         this.height = ParsedImage.getHeight();
         this.width = ParsedImage.getWidth();
 
-        flatGrid = new PlayableTile[height*width];
-        tileGrid = new PlayableTile[height][width];
+        tileGrid = new Tile[height][width];
 
 
         innerLayout = new GridLayout(height+1, width+1);
@@ -43,28 +40,35 @@ public class GameWindow {
                
                 if (column == 0) {
 
-                    innerPanel.add(new InfoTile());
+                    innerPanel.add(new MonochromeInfo());
 
                     //innerPanel.add(infoPan);
                 } else if(row == 0) {
 
 
                     
-                    innerPanel.add(new InfoTile());
+                    innerPanel.add(new MonochromeInfo());
 
                 } else {
-                    PlayableTile tile;
+                    Tile tile;
+
+
 
                     if(ParsedImage.isColoured()) {
-
-                        tile = new ColouredTile( column-1, row - 1);
+                        if(row == 0 || column == 0) {
+                            tile = new MonochromeInfo();
+                        } else {
+                            tile = new ColouredTile( column-1, row - 1);
+                        }
                     } else {
-                        tile = new MonochromeTile(column - 1, row - 1);
+                        if(row == 0 || column == 0) {
+                            tile = new MonochromeInfo();
+                        } else {
+                            tile = new MonochromeTile(column - 1, row - 1);
+                        }
                     }
 
-                    flatGrid[gridCounter] = tile;
                     tileGrid[row-1][column-1] = tile;
-                    gridCounter++;
 
                     tile.setPreferredSize(new Dimension(64, 64));
                     innerPanel.add(tile);
@@ -72,7 +76,7 @@ public class GameWindow {
             }
         }
     }
-    
+
 
 
     public void revealSolution() {

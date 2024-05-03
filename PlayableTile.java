@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class PlayableTile extends JPanel implements MouseListener {
+public abstract class PlayableTile extends Tile implements MouseListener {
     
     private Color enabledColour;
     private Color defaultColour = Color.gray;
@@ -14,6 +14,7 @@ public abstract class PlayableTile extends JPanel implements MouseListener {
     
     private tileState state;    
 
+    // move this to monochrome
     static enum tileState {
         DEFAULT,
         ENABLED,
