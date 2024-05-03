@@ -54,10 +54,12 @@ public class GameWindow {
 
                 } else {
                     PlayableTile tile;
+
                     if(ParsedImage.isColoured()) {
-                        tile = new ColouredTile(column, row);
+
+                        tile = new ColouredTile( column-1, row - 1);
                     } else {
-                        tile = new MonochromeTile(column, row);
+                        tile = new MonochromeTile(column - 1, row - 1);
                     }
 
                     flatGrid[gridCounter] = tile;
@@ -71,20 +73,7 @@ public class GameWindow {
         }
     }
     
-    public void revealSolution(boolean[][] pixels) {
-        System.out.println("size: " + flatGrid.length);
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                //System.out.println("bit: " + pixels[x][y]);
-                if (pixels[y][x]) {
-                    tileGrid[height-1-y][x].setBackground(Color.white);
-                    //System.out.println(x + " : " + y);
-                } else {
-                    tileGrid[height-1-y][x].setBackground(Color.black);
-                }
-            }
-        }
-    }
+
 
     public void revealSolution() {
         for(int y = 0; y < width; y++) {
@@ -92,21 +81,6 @@ public class GameWindow {
             tileGrid[x][y].reveal();
             }
         }
-    }
-
-    public void revealColoured(Color[][] colourData) {
-        System.out.println("size: " + flatGrid.length);
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-
-                tileGrid[height-1-y][x].setBackground(colourData[y][x]);
-
-            }
-        }
-    }
-
-    public PlayableTile getPlayableTile(int x, int y) {
-        return flatGrid[x + y*width];
     }
 
    
