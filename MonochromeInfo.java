@@ -10,6 +10,11 @@ public class MonochromeInfo extends InfoTile {
     @Override
     public void calculateConstraints() {
         constraintSlice = ParsedImage.getBooleanSlice(getXCoord(), getYCoord());
+
+        if (constraintSlice.length == 0) {
+            return;
+        }
+
         ArrayList<Integer> result = runLengthEncoding();
         for(int i = 0; i < result.size(); i++) {
             this.add(new JLabel(String.valueOf(result.get(i))));

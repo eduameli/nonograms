@@ -3,14 +3,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public abstract class Tile extends JPanel implements MouseListener {
+public abstract class Tile extends JPanel {
 
     public Tile(int x, int y) {
         this.xCoord = x;
         this.yCoord = y;
 
         this.setBackground(Color.gray);
-        this.addMouseListener(this);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
@@ -33,29 +32,31 @@ public abstract class Tile extends JPanel implements MouseListener {
 
     public abstract void toggle();
 
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
+    //public abstract void next();
 
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
+//    @Override
+//    public void mouseClicked(MouseEvent mouseEvent) {
+//        next();
+//    }
+//
+//    @Override
+//    public void mousePressed(MouseEvent mouseEvent) {
+//
+//    }
+//
+//    @Override
+//    public void mouseReleased(MouseEvent mouseEvent) {
+//
+//    }
+//
+//    @Override
+//    public void mouseEntered(MouseEvent mouseEvent) {
+//
+//    }
+//
+//    @Override
+//    public void mouseExited(MouseEvent mouseEvent) {
+//
+//    }
 
 }
