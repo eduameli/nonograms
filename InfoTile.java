@@ -1,20 +1,23 @@
-import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class InfoTile extends Tile {
-    public InfoTile() {
-        //this.add(new JLabel("1"));
-//        this.add(new JLabel("1"));
-//
-//        this.add(new JLabel("1"));
-//
-//        this.add(new JLabel("1"));
-//
-//        this.add(new JLabel("1"));
-//
-//        this.add(new JLabel("1"));
+
+    public int[] constraintSlice;
+
+    public InfoTile(int x, int y) {
+        super(x, y);
+
+        constraintSlice = x == 0 ? new int[ParsedImage.getHeight()] : new int[ParsedImage.getWidth()];
+        calculateConstraints();
+
+        // universal infotile styling!
 
     }
 
-    private void runLengthEncoding() {}
+
+    public abstract void calculateConstraints();
+
+    public abstract boolean satisfiesConstraints();
+
+    public abstract ArrayList<Integer> runLengthEncoding();
 }

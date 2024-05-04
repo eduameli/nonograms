@@ -3,15 +3,15 @@ import java.awt.*;
 public class MonochromeTile extends Tile {
 
     public MonochromeTile(int x, int y) {
-        super();
+        super(x, y);
         this.x = x;
         this.y = y;
-        correctState = ParsedImage.getValue(x, y);
+        correctState = ParsedImage.getBoolean(x-1, y-1);
 
     }
-    private boolean correctState;
-    private int x;
-    private int y;
+    private final boolean correctState;
+    private final int x;
+    private final int y;
 
     public void toggle() {}
     public void reveal() {
