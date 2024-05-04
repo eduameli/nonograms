@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ColouredInfo extends InfoTile{
     public ColouredInfo(int x, int y) {
         super(x, y);
@@ -15,6 +17,11 @@ public class ColouredInfo extends InfoTile{
     @Override
     public boolean satisfiesConstraints() {
         return true;
+    }
+
+    @Override
+    public ArrayList<Integer> runLengthEncoding() {
+        return null;
     }
 
 }

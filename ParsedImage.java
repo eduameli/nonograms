@@ -1,12 +1,13 @@
 import java.awt.*;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.BitSet;
 
 public class ParsedImage {
 
     private static boolean coloured;
 
-    private static Color[] possibleColours;
+    private static ArrayList<Color> possibleColours;
 
 
     public static int getWidth() {
@@ -119,6 +120,11 @@ public class ParsedImage {
         int r = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width]);
         int g = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width + 1]);
         int b = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width + 2]);
+        Color c = new Color(b, g, r);
+
+        if(possibleColours.contains(c)) {
+
+        }
         return new Color(b, g, r);
 
 
@@ -134,22 +140,29 @@ public class ParsedImage {
         return ((in >> (7-pos)) & 1) == 1;
     }
 
-    public static boolean[] getBooleanSlice(int x, int y) {
-        boolean[] slice = new boolean[0];
+    public static int[] getBooleanSlice(int x, int y) {
+        int[] slice = new int[0];
+
+
+        if(x == 0 && y == 0) {
+            return slice;
+        }
+
+
+       //System.out.println(x + " : " + y);
 
         if (y == 0) {
-            System.out.println("y = 0");
-            System.out.println(x + " : " + y);
-            slice = new boolean[height];
-            for(int i = 0; i < 3; i++) {
-                slice[i] = getBoolean(x + i, y);
+           // System.out.println(x + " : " + y);
+            slice = new int[height];
+            for(int i = 0; i < height; i++) {
+
+
+                slice[i] = getBoolean(x-1, y+i) ? 1 : 0;
             }
         } else if (x == 0) {
-            System.out.println("x = 0");
-            System.out.println(x + " : " + y);
-            slice = new boolean[width];
-            for(int i = 0; i < 3; i++) {
-                slice[i] = getBoolean(x-1, y + i -1);
+            slice = new int[width];
+            for(int i = 0; i < width; i++) {
+                slice[i] = getBoolean(x+i, y-1) ? 1 : 0;
             }
         }
 
