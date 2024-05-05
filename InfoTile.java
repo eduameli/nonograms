@@ -1,6 +1,7 @@
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public abstract class InfoTile extends Tile {
+public abstract class InfoTile extends Tile implements MouseListener {
 
     public int[] constraintSlice;
 

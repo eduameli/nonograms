@@ -4,11 +4,11 @@ import java.awt.event.MouseListener;
 
 public class ColouredTile extends Tile implements MouseListener {
 
-    private int colorIndex = -1;
+    private int colorIndex = 0;
 
-    public ColouredTile(int x, int y) {
+    public ColouredTile(int x, int y, Color c) {
         super(x, y);
-        //this.setBackground(new Color(1, 0, 0));
+        this.setBackground(c);
         this.addMouseListener(this);
         correctColour = ParsedImage.getColour(x-1, y-1);
     }
@@ -20,15 +20,27 @@ public class ColouredTile extends Tile implements MouseListener {
         this.setBackground(new Color(correctColour));
     }
 
-    public void next() {
-        colorIndex++;
-        this.setBackground(new Color(ParsedImage.possibleColours.get(colorIndex % ParsedImage.possibleColours.size())));
+    public void next(int increment) {
+        colorIndex += increment;
+        this.setBackground(new Color(ParsedImage.possibleColours.get(Math.abs(colorIndex) % ParsedImage.possibleColours.size())));
 
     }
 
     @Override
+    public boolean isCorrect() {
+        return getBackground().getRGB() == correctColour;
+    }
+
+    @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        next();
+        //next(mouseEvent.getButton());
+        if (mouseEvent.getButton() == 1) {
+            System.out.println("left click!");
+            next(1);
+        } else if (mouseEvent.getButton() == 3) {
+            next(-1);
+            System.out.println("right click");
+        }
         System.out.println("CLICKED");
     }
 

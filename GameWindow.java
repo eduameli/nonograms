@@ -4,10 +4,10 @@ import java.awt.*;
 public class GameWindow extends JFrame{
 
     private final JPanel mainPanel = new JPanel();
-    private final Tile[][] tileGrid;
+    public static Tile[][] tileGrid = new Tile[0][0];
 
-    private final int height;
-    private final int width;
+    private static int height = 0;
+    private static int width = 0;
 
     public GameWindow() {
         this.height = ParsedImage.getHeight();
@@ -41,7 +41,7 @@ public class GameWindow extends JFrame{
         Tile tile;
 
         if(ParsedImage.isColoured()) {
-            tile = (x == 0 || y == 0) ? new ColouredInfo(x, y) : new ColouredTile(x, y);
+            tile = (x == 0 || y == 0) ? new ColouredInfo(x, y) : new ColouredTile(x, y, new Color(ParsedImage.ignoredColour));
         } else {
             tile = (x == 0 || y == 0) ? new MonochromeInfo(x, y) : new MonochromeTile(x, y);
         }
@@ -58,6 +58,29 @@ public class GameWindow extends JFrame{
             tileGrid[x][y].reveal();
             }
         }
+    }
+
+    public static Tile[] getTileSlice(int x, int y) {
+        Tile[] slice = new Tile[0];
+
+        if(x == 0 && y == 0) {
+            return slice;
+        }
+
+        if (y == 0) {
+            slice = new Tile[height];
+            for(int i = 0; i < height; i++) {
+                //slice[i] = getBoolean(x-1, y+i) ? 1 : 0;
+                slice[i] = tileGrid[x-1][y+i];
+            }
+        } else if (x == 0) {
+            slice = new Tile[width];
+            for(int i = 0; i < width; i++) {
+                //slice[i] = getBoolean(x+i, y-1) ? 1 : 0;
+                slice[i] = tileGrid[x+i][y-1];
+            }
+        }
+        return slice;
     }
 
    

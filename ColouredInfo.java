@@ -1,18 +1,27 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ColouredInfo extends InfoTile{
     public ColouredInfo(int x, int y) {
         super(x, y);
+        this.addMouseListener(this);
     }
 
     @Override
     public void toggle() {}
 
     @Override
-    public void reveal() {}
+    public boolean isCorrect() {
+        return false;
+    }
+
+    @Override
+    public void reveal() {
+        System.out.println("row correct: " + satisfiesConstraints());
+    }
 
     @Override
     public void calculateConstraints() {
@@ -25,14 +34,14 @@ public class ColouredInfo extends InfoTile{
         //System.out.println(constraintSlice);
 
         ArrayList<Integer> result = runLengthEncoding();
-
+        System.out.println(result);
 
 
 //        System.out.println("COLOURES: " + ParsedImage.possibleColours);
 //        System.out.println("RESULT: " + result);
 //        System.out.println("SLICE: " + Arrays.toString(constraintSlice));
         for(int i = 0; i < result.size(); i += 2) {
-            if(result.get(i+1) == -1) {
+            if(result.get(i+1) == ParsedImage.ignoredColour) {
                 continue;
             }
             JLabel label = new JLabel(String.valueOf(result.get(i)));
@@ -44,6 +53,16 @@ public class ColouredInfo extends InfoTile{
 
     @Override
     public boolean satisfiesConstraints() {
+        Tile[] sliceTiles = GameWindow.getTileSlice(getXCoord(), getYCoord());
+        for(int  i = 0; i < sliceTiles.length; i++) {
+            //Tile t = GameWindow.tileGrid[getYCoord()][getXCoord()];
+            //if(GameWindow.tileGrid[getXCoord(), getYCoord()].isCorrect()) {
+            if (!sliceTiles[i].isCorrect()) {
+                return false;
+            }
+
+            //}
+        }
         return true;
     }
 
@@ -75,4 +94,28 @@ public class ColouredInfo extends InfoTile{
         return result;
     }
 
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        System.out.println("row correct: " + satisfiesConstraints());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
+    }
 }

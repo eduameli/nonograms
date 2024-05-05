@@ -20,6 +20,12 @@ public class MonochromeTile extends Tile implements MouseListener {
     private final int y;
 
     public void toggle() {}
+
+    @Override
+    public boolean isCorrect() {
+        return false;
+    }
+
     public void reveal() {
         if(correctState) {
             this.setBackground(Color.yellow);

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class MonochromeInfo extends InfoTile {
@@ -35,6 +36,11 @@ public class MonochromeInfo extends InfoTile {
 
     }
 
+    @Override
+    public boolean isCorrect() {
+        return false;
+    }
+
     public ArrayList<Integer> runLengthEncoding() {
         int counter = 0;
         ArrayList<Integer> result = new ArrayList<Integer>();
@@ -56,4 +62,28 @@ public class MonochromeInfo extends InfoTile {
         return result;
     }
 
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
+    }
 }

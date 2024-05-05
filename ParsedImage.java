@@ -72,7 +72,8 @@ public class ParsedImage {
                 coloured = false;
             } else if(bitDepth == 24) {
                 coloured = true;
-                ignoredColour =  -16777216;
+                //System.out.println(possibleColours);
+                ignoredColour =  -1;
 
 
             }
@@ -192,6 +193,9 @@ public class ParsedImage {
         return slice;
     }
 
+
+
+    public void reset() {}
 
 
 

@@ -14,7 +14,6 @@ public abstract class Tile extends JPanel {
     }
 
 
-
     private final int xCoord;
     private final int yCoord;
 
@@ -32,31 +31,6 @@ public abstract class Tile extends JPanel {
 
     public abstract void toggle();
 
-    //public abstract void next();
-
-//    @Override
-//    public void mouseClicked(MouseEvent mouseEvent) {
-//        next();
-//    }
-//
-//    @Override
-//    public void mousePressed(MouseEvent mouseEvent) {
-//
-//    }
-//
-//    @Override
-//    public void mouseReleased(MouseEvent mouseEvent) {
-//
-//    }
-//
-//    @Override
-//    public void mouseEntered(MouseEvent mouseEvent) {
-//
-//    }
-//
-//    @Override
-//    public void mouseExited(MouseEvent mouseEvent) {
-//
-//    }
+    public abstract boolean isCorrect();
 
 }
