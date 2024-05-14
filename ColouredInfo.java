@@ -66,19 +66,16 @@ public class ColouredInfo extends InfoTile{
         return true;
     }
 
+    
+    
     @Override
     public ArrayList<Integer> runLengthEncoding() {
         ArrayList<Integer> result = new ArrayList<>();
-        //result.add(3);
-        //result.add(-65536);
-
+  
         int counter = 0;
         int lastValue =  constraintSlice[0];
-        for(int i = 1; i < constraintSlice.length; i++) {
 
-            //if(constraintSlice[i] == ParsedImage.ignoredColour) {
-            //    continue;
-            //}
+        for(int i = 1; i < constraintSlice.length; i++) {
 
             counter++;
             if (lastValue != constraintSlice[i]) {
@@ -93,6 +90,13 @@ public class ColouredInfo extends InfoTile{
         result.add(lastValue);
         return result;
     }
+
+
+
+
+
+
+
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {

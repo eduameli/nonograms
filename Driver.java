@@ -7,11 +7,11 @@ public class Driver {
         //ParsedImage.loadBMP("3colour_basketball.bmp");
         //ParsedImage.loadBMP("elephant.bmp");
         //ParsedImage.loadBMP("2colour_elephant.bmp");
-        ParsedImage.loadBMP("test.bmp");
+        ParsedImage.loadBMP("elephant.bmp");
 
 
         GameWindow window = new GameWindow();
-        //window.revealSolution();
+        window.revealSolution();
 
     }
 }

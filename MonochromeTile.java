@@ -14,7 +14,7 @@ public class MonochromeTile extends Tile implements MouseListener {
     }
     private final boolean correctState;
 
-    private int[] possibleColors = new int[] {-1, -16663};
+    private int[] possibleColors = new int[] {-1, Color.black.getRGB()};
     int colorIndex = -1;
     private final int x;
     private final int y;

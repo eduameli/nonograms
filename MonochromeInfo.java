@@ -41,10 +41,13 @@ public class MonochromeInfo extends InfoTile {
         return false;
     }
 
+    @Override
     public ArrayList<Integer> runLengthEncoding() {
-        int counter = 0;
+        
         ArrayList<Integer> result = new ArrayList<Integer>();
-        for(int i = 0; i < constraintSlice.length; i++) {
+        int counter = 0;
+        
+        for(int i = 1; i < constraintSlice.length; i++) {
             if (constraintSlice[i] == 1) {
                 if(counter == 0) {
                     continue;
@@ -59,8 +62,31 @@ public class MonochromeInfo extends InfoTile {
             }
 
         }
+        result.add(counter+1);
         return result;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {

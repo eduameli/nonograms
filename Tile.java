@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 public abstract class Tile extends JPanel {
 
@@ -9,7 +8,15 @@ public abstract class Tile extends JPanel {
         this.xCoord = x;
         this.yCoord = y;
 
-        this.setBackground(Color.gray);
+        this.setBackground(Color.lightGray);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+
+    public Tile(int x, int y, Color c) {
+        this.xCoord = x;
+        this.yCoord = y;
+
+        this.setBackground(c);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
