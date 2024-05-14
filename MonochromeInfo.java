@@ -29,7 +29,9 @@ public class MonochromeInfo extends InfoTile {
     }
 
     @Override
-    public void reveal() {}
+    public boolean reveal() {
+        return false;
+    }
 
     @Override
     public void toggle() {
@@ -43,26 +45,25 @@ public class MonochromeInfo extends InfoTile {
 
     @Override
     public ArrayList<Integer> runLengthEncoding() {
-        
         ArrayList<Integer> result = new ArrayList<Integer>();
         int counter = 0;
-        
-        for(int i = 1; i < constraintSlice.length; i++) {
+
+        for(int i = 0; i < constraintSlice.length; i++) {
             if (constraintSlice[i] == 1) {
-                if(counter == 0) {
-                    continue;
+                if(counter > 0) {
+                    result.add(counter);
+                    counter = 0;
                 }
-
-                result.add(counter);
-
-                counter = 0;
-                continue;
             } else if(constraintSlice[i] == 0) {
                 counter++;
             }
-
         }
-        result.add(counter+1);
+
+        // Add the last counter if it's greater than zero
+        if(counter > 0) {
+            result.add(counter);
+        }
+
         return result;
     }
 

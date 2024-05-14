@@ -16,8 +16,10 @@ public class ColouredTile extends Tile implements MouseListener {
     private final int correctColour;
 
     public void toggle() {}
-    public void reveal() {
+    public boolean reveal() {
+        boolean wasCorrect = this.getBackground().getRGB() == correctColour;
         this.setBackground(new Color(correctColour));
+        return wasCorrect;
     }
 
     public void next(int increment) {

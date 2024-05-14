@@ -19,8 +19,9 @@ public class ColouredInfo extends InfoTile{
     }
 
     @Override
-    public void reveal() {
+    public boolean reveal() {
         System.out.println("row correct: " + satisfiesConstraints());
+        return false;
     }
 
     @Override

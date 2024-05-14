@@ -34,7 +34,7 @@ public abstract class Tile extends JPanel {
     }
 
 
-    public abstract void reveal();
+    public abstract boolean reveal();
 
     public abstract void toggle();
 

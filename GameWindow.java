@@ -1,9 +1,13 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class GameWindow extends JFrame{
 
-    private final JPanel mainPanel = new JPanel();
+    private static final JPanel mainPanel = new JPanel();
     public static Tile[][] tileGrid = new Tile[0][0];
 
     private static int height = 0;
@@ -46,7 +50,11 @@ public class GameWindow extends JFrame{
             tile = (x == 0 || y == 0) ? new MonochromeInfo(x, y) : new MonochromeTile(x, y);
         }
 
-        if (!(tile instanceof InfoTile)) {
+        if(x == 0 && y == 0) {
+            tile = new GameStateTile(x, y);
+        }
+
+        if (!(tile instanceof InfoTile  || tile instanceof GameStateTile)) {
             tileGrid[y-1][x-1] = tile;
         }
         return tile;
@@ -58,6 +66,33 @@ public class GameWindow extends JFrame{
             tileGrid[x][y].reveal();
             }
         }
+    }
+
+    public static void markSolution() {
+        int errors = 0;
+        for(int y = 0; y < width; y++) {
+            for (int x = 0; x < height; x++) {
+                boolean correct = tileGrid[x][y].reveal();
+                System.out.println(correct);
+                Color borderColor;
+                if(!correct) {
+                    borderColor = Color.red;
+                    errors++;
+                } else {
+                    borderColor = Color.green;
+                }
+
+                if(tileGrid[x][y].getBackground().getRGB() == borderColor.getRGB()) {
+                    borderColor = borderColor.darker();
+                }
+                tileGrid[x][y].setBorder(new LineBorder(borderColor, 5));
+            }
+        }
+        String message = "Thanks for playing!\nBetter luck next time... You got " + errors + " errors out of  " + width*height ;
+        if(errors == 0) {
+            message = "Wow, impressive! You completed the puzzle successfully!";
+        }
+        JOptionPane.showMessageDialog(null, message);
     }
 
     public static Tile[] getTileSlice(int x, int y) {
@@ -82,6 +117,7 @@ public class GameWindow extends JFrame{
         }
         return slice;
     }
+
 
    
 }

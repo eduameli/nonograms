@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 
 public class MonochromeTile extends Tile implements MouseListener {
 
@@ -26,13 +27,16 @@ public class MonochromeTile extends Tile implements MouseListener {
         return false;
     }
 
-    public void reveal() {
+    public boolean reveal() {
+        Color c = this.getBackground();
+        boolean wasCorrect = (c.getRGB() == (correctState ? Color.white.getRGB() : Color.black.getRGB()));
         if(correctState) {
-            this.setBackground(Color.yellow);
+            this.setBackground(Color.white);
         } else {
             this.setBackground(Color.black);
         }
-        //this.setBackground();
+        System.out.println(c + " :: " + correctState + " :: " + wasCorrect + " :: " + getXCoord() + ", " + getYCoord());
+        return wasCorrect;
     }
 
     public void next() {
