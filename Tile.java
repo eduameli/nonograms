@@ -33,11 +33,4 @@ public abstract class Tile extends JPanel {
         return yCoord;
     }
 
-
-    public abstract boolean reveal();
-
-    public abstract void toggle();
-
-    public abstract boolean isCorrect();
-
 }

@@ -1,8 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class ColouredTile extends Tile implements MouseListener {
+public class ColouredTile extends PlayableTile {
 
     private int colorIndex = 0;
 
@@ -13,9 +12,10 @@ public class ColouredTile extends Tile implements MouseListener {
         correctColour = ParsedImage.getColour(x-1, y-1);
     }
 
+    // This will contain the correct colour this tile should be when the puzzle is solved read directly from the byte array
     private final int correctColour;
 
-    public void toggle() {}
+    // Reveals the correct colour, this returns a boolean to be used for marking.
     public boolean reveal() {
         boolean wasCorrect = this.getBackground().getRGB() == correctColour;
         this.setBackground(new Color(correctColour));
@@ -29,40 +29,13 @@ public class ColouredTile extends Tile implements MouseListener {
     }
 
     @Override
-    public boolean isCorrect() {
-        return getBackground().getRGB() == correctColour;
-    }
-
-    @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         //next(mouseEvent.getButton());
         if (mouseEvent.getButton() == 1) {
-            System.out.println("left click!");
             next(1);
         } else if (mouseEvent.getButton() == 3) {
             next(-1);
-            System.out.println("right click");
         }
-        System.out.println("CLICKED");
     }
 
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
 }

@@ -1,31 +1,22 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Arrays;
 
-public class MonochromeTile extends Tile implements MouseListener {
+public class MonochromeTile extends PlayableTile {
 
     public MonochromeTile(int x, int y) {
         super(x, y);
-        this.x = x;
-        this.y = y;
         correctState = ParsedImage.getBoolean(x-1, y-1);
         this.addMouseListener(this);
 
     }
+
+    // The correct state of this tile according to the read image, B/W so it can be stored as a boolean
     private final boolean correctState;
 
-    private int[] possibleColors = new int[] {-1, Color.black.getRGB()};
+    // Array containing black and white, this is used to swap between the colours when you click, indexing a click counter into this array but using the % operator so it
+    // doesn't go out  of bounds
+    private final int[] possibleColors = new int[] {-1, Color.black.getRGB()};
     int colorIndex = -1;
-    private final int x;
-    private final int y;
-
-    public void toggle() {}
-
-    @Override
-    public boolean isCorrect() {
-        return false;
-    }
 
     public boolean reveal() {
         Color c = this.getBackground();
@@ -35,37 +26,13 @@ public class MonochromeTile extends Tile implements MouseListener {
         } else {
             this.setBackground(Color.black);
         }
-        System.out.println(c + " :: " + correctState + " :: " + wasCorrect + " :: " + getXCoord() + ", " + getYCoord());
         return wasCorrect;
     }
 
-    public void next() {
-
-    }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         colorIndex++;
         this.setBackground(new Color(possibleColors[colorIndex % 2]));
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
     }
 }

@@ -1,9 +1,9 @@
 # nonograms
- 
-# TODO
-- refactor inheritance tree
-- cleanup unused methods & properties
-- abstract things into the correct subclass
-- delete PlayableTile - click behaviour will be in the respective subclass (Coloured/Monochrome Info and ColouredMonochromeTile)
-- implement a solver (threads wfc? other algo) - finish by monday...
-- add buttons to show solution or check solution after every check 
+
+how to run:
+(a) javac *.java
+(b) java Driver
+
+thare are two ways to give the .bmp input file path
+(i) use the gui to select a .bmp file
+(ii) use the command line args after java Driver <input_file.bmp>

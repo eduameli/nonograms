@@ -30,7 +30,8 @@ public class ParsedImage {
     private static byte[] pixelContent;
 
 
-
+    // Load all relevant data from the .bmp file stored at the specified path.
+    // file size, pixel data start location, image dimensions(height & width), bit depth, pixel data(bytes from pixel data start location to EOF)
     public static void loadBMP(String path) {
         try {
             FileInputStream f = new FileInputStream(path);
@@ -72,15 +73,10 @@ public class ParsedImage {
                 coloured = false;
             } else if(bitDepth == 24) {
                 coloured = true;
-                //System.out.println(possibleColours);
                 ignoredColour =  -1;
-
-
             }
 
 
-
-            System.out.println("finished parsing!");
         } catch (Exception e) {
             System.out.println("error parsing file!");
         } 
@@ -92,24 +88,21 @@ public class ParsedImage {
 
 
 
-
+    // Returns result of reading byte array as a little endian number
     private static int parseBytes(byte[] input) {
         BitSet set = BitSet.valueOf(input);
         int total = 0;
 
         for (int bit = (input.length*8) -1; bit >= 0; bit--) {
             if(set.get(bit)) {
-                //System.out.print(1);
                 total += (1 << bit);
             }
-            //} else {
-                //System.out.print(0);
-            //}
        }
 
         return total;
     }
 
+    // Returns result of reading byte as a little endian number
     private static int parseBytes(byte input) {
         BitSet set = BitSet.valueOf(new byte[] {input});
         int total = 0;
@@ -127,6 +120,7 @@ public class ParsedImage {
         return total;
     }
 
+    // Returns the stored colour directly from the source byte array, calculated on-demand from each ColouredTile's constructor
     public static int getColour(int x, int y) {
         int r = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width]);
         int g = parseBytes(pixelContent[(x*3)+((height-y-1)*3)*width + 1]);
@@ -134,23 +128,25 @@ public class ParsedImage {
         Color c = new Color(b, g, r);
 
         if(!possibleColours.contains(c.getRGB())) {
-            System.out.println("new colour");
             possibleColours.add(c.getRGB());
         }
         return c.getRGB();
 
     }
 
+    // Returns the stored boolean directly from the source byte array, calculated on-demand from each MonochromeTile's constructor
     public static boolean getBoolean(int x, int y) {
         int index = (int) (Math.ceil((double) ((height-y-1) * 4) / 4) * 4 + x/8);
         return isBitSet(pixelContent[index], x%8);
     }
 
 
+    // Read if a specific bit from a byte is 1 or 0
     private static boolean isBitSet(byte in, int pos) {
         return ((in >> (7-pos)) & 1) == 1;
     }
 
+    // Reads the corresponding boolean slice for a MonochromeInfoTile at position x, y
     public static int[] getBooleanSlice(int x, int y) {
         int[] slice = new int[0];
 
@@ -172,6 +168,7 @@ public class ParsedImage {
         return slice;
     }
 
+    // Reads the corresponding colour slice for a ColouredInfoTile at position x, y
     public static int[] getColourSlice(int x, int y) {
         int[] slice = new int[0];
 
@@ -192,15 +189,4 @@ public class ParsedImage {
         }
         return slice;
     }
-
-
-
-    public void reset() {}
-
-
-
-
-
-
-    
 }

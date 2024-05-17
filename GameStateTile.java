@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class GameStateTile extends Tile implements MouseListener {
+
+    // This tile is basically just a button that sits at coordinate in the GridLayout (x, y), and when clicked marks the solution using GameWindow.markSolution()
     public GameStateTile(int x, int y) {
         super(x, y);
         this.add(new JLabel("MARK"));
@@ -12,23 +14,7 @@ public class GameStateTile extends Tile implements MouseListener {
     }
 
     @Override
-    public boolean reveal() {
-        return false;
-    }
-
-    @Override
-    public void toggle() {
-
-    }
-
-    @Override
-    public boolean isCorrect() {
-        return false;
-    }
-
-    @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        System.out.println("MARK NONOGRAM!");
         GameWindow.markSolution();
     }
 

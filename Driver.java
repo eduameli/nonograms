@@ -1,22 +1,22 @@
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.*;
-import java.awt.*;
-import java.io.File;
 
 public class Driver {
     public static void main(String[] args) {
-        ParsedImage.loadBMP(chooseFile());
 
+        String path = "";
+        if (args.length != 0) {
+            path = args[0];
+        } else {
+            path = chooseFile();
+        }
+
+        ParsedImage.loadBMP(path);
 
         GameWindow window = new GameWindow();
-        window.revealSolution();
     }
 
-    public static void reset() {
 
-    }
-
+    // Opens a new window to request a file be selected through the GUI
     public static String chooseFile() {
         JFileChooser chooser = new JFileChooser();
         int returnVal = chooser.showOpenDialog(null);
