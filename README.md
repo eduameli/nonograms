@@ -10,10 +10,10 @@ thare are two ways to give the .bmp input file path\
 
 Code Structure:
 Inheritance Tree\
-![KoltilzI](https://github.com/eduameli/nonograms/assets/165940955/490f45c1-8905-4aa0-b42e-02da6ff204cc)
+![image](https://github.com/eduameli/nonograms/assets/165940955/7f0bf1e5-0163-4af9-8434-7700cfe288fe)
 
 
-Other Classes:
-ParsedImage: reads the .bmp file and interprets it 
-GameWindow: contains most of the Swing GUI logic
-Driver: runs the game
+Other Classes:\
+ParsedImage: reads the .bmp file and interprets it\
+GameWindow: contains most of the Swing GUI logic\
+Driver: runs the game\
